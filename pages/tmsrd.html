@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>TMS Landing Page</title>
+    <style>
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      body,
+      html {
+        width: 100%;
+        height: 100%;
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      }
+
+      .header {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        padding: 25px 60px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        z-index: 2;
+      }
+
+      .header img {
+        height: 70px; /* Varsayılan logo yüksekliği */
+        transition: all 0.3s ease;
+      }
+
+      .header a.button {
+        text-decoration: none;
+        padding: 18px 28px; /* Varsayılan buton padding */
+        background: linear-gradient(135deg, #dc2626, #ef4444);
+        color: white;
+        font-size: 20px; /* Varsayılan font büyüklüğü */
+        font-weight: 700;
+        border-radius: 24px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        transition: all 0.3s ease;
+      }
+
+      .header a.button:hover {
+        background: linear-gradient(135deg, #b91c1c, #dc2626);
+        transform: translateY(-2px);
+        box-shadow: 0 6px 16px rgba(0, 0, 0, 0.25);
+      }
+
+      .hero-image {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: url("../images/bg-img.png") no-repeat center center;
+        background-size: cover;
+        z-index: 1;
+      }
+
+      /* 1600px ve üzeri ekranlar için */
+      @media (min-width: 1600px) {
+        .header{
+            padding: 60px 80px;
+        }
+        
+        .header img {
+          height: 120px;
+        }
+
+        .header a.button {
+          padding: 35px 60px;
+          font-size: 35px;
+          border-radius: 30px;
+        }
+      }
+
+      /* Küçük ekranlar için */
+      @media (max-width: 768px) {
+        .header {
+          padding: 10px 20px;
+          flex-direction: column;
+          gap: 10px;
+        }
+
+        .header img {
+          height: 60px;
+        }
+
+        .header a.button {
+          padding: 14px 22px;
+          font-size: 22px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="header">
+      <img src="../images/logo.svg" alt="TMS Logo" />
+      <a href="../index.html" class="button">See Projects</a>
+    </div>
+
+    <div class="hero-image"></div>
+  </body>
+</html>

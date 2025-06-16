@@ -1,0 +1,470 @@
+@import url("https://fonts.googleapis.com/css2?family=Jost:wght@400;700&display=swap");
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Jost", sans-serif;
+}
+
+.slider-container {
+  width: 100%;
+  height: 100vh;
+  background-image: url("Images/bg-img.png");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.slider-images {
+  display: flex;
+  justify-content: center; /* Yatayda ortalar */
+  align-items: center; /* Dikeyde ortalar */
+  gap: 10px;
+  width: 100%;
+  height: 100%;
+  padding: 0 20px;
+  overflow: hidden;
+  flex-wrap: nowrap; /* Satır kırılmasını engeller, sliderlar yan yana kalır */
+}
+
+.slider-img {
+  flex: 1;
+  height: 80%; /* Kapalı haller için biraz daha uzun yaptım */
+  width: 100%;
+  border-radius: 40px;
+  cursor: pointer;
+  position: relative;
+  transition: flex 0.5s ease, height 0.5s ease;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.slider-img img {
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+  border-radius: 40px;
+}
+
+.slider-img:not(.active) img {
+  display: none;
+}
+
+.slider-img:not(.active) {
+  background: linear-gradient(135deg, #00050d, #011425, #03253b);
+}
+
+/* Aktif olan genişler ve tam yüksek */
+.slider-img.active {
+  flex: 12 !important; /* Aktif slayt daha büyük */
+  height: 98% !important;
+}
+
+/* Aktif slaydın yanındakiler: aynı genişlik, biraz daha yüksek */
+.slider-img.near-active {
+  flex: 1 !important;
+  height: 93% !important;
+}
+
+/* Onların dışındakiler: en küçük yükseklik */
+.slider-img.far-active {
+  flex: 1 !important;
+  height: 88% !important;
+}
+
+h1 {
+  font-size: 20px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #fff;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform-origin: center;
+  transform: translate(-50%, -50%) rotate(270deg);
+  white-space: nowrap;
+  transition: opacity 0.3s ease;
+  border-bottom: 20px;
+}
+
+.details {
+  position: absolute;
+  bottom: 43px;
+  left: 43px;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+  z-index: 2;
+}
+
+.details h2 {
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 28px;
+  color: crimson;
+  text-transform: uppercase;
+}
+
+.details p {
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 22px;
+  color: #fff;
+  text-transform: uppercase;
+}
+
+.slider-img.active h1 {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.slider-img.active .details {
+  opacity: 1;
+}
+
+.slider-logo {
+  position: absolute;
+  top: 43px;
+  left: 45px;
+  width: auto !important;
+  height: 60px !important;
+  opacity: 0;
+  transition: opacity 0.7s ease 0s; /* Başlangıçta delay yok */
+  pointer-events: none; /* görünmeyince tıklanmasın */
+}
+
+/* Aktif slayt olduğunda opacity 1 olur ama 0.5s gecikmeli */
+.slider-img.active .slider-logo {
+  opacity: 1;
+  transition-delay: 1s;
+  pointer-events: auto;
+}
+
+/* YENİ EKLENEN BUTON STİLİ */
+.see-more-btn {
+  position: absolute;
+  bottom: 43px;
+  right: 43px;
+  background-color: crimson;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 25px;
+  text-decoration: none;
+  font-weight: 700;
+  text-transform: uppercase;
+  font-size: 14px;
+  opacity: 0;
+  transition: opacity 0.2s ease, background-color 0.3s ease;
+  z-index: 2;
+  border: 2px solid transparent;
+}
+
+.slider-img,
+.slider-img img,
+.see-more-btn,
+.slider-logo,
+.next-btn,
+.prev-btn {
+  user-select: none;
+  -webkit-user-drag: none;
+  -moz-user-select: none;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+}
+
+.see-more-btn:hover {
+  background-color: red; /* Hover için biraz daha koyu kırmızı */
+}
+
+/* Butonun sadece aktif slaytta görünmesini sağla */
+.slider-img.active .see-more-btn {
+  opacity: 1;
+}
+
+.slider-nav-btn {
+  position: absolute;
+  bottom: 5px;
+  background-color: rgba(0, 0, 0, 0.6);
+  color: white;
+  border: none;
+  font-size: 28px;
+  font-weight: bold;
+  cursor: pointer;
+  z-index: 100;
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.3s ease;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.4);
+}
+
+.slider-nav-btn:hover {
+  background-color: rgba(0, 0, 0, 0.8);
+}
+
+.slider-nav-btn:active {
+  background-color: rgba(0, 0, 0, 1);
+}
+
+.prev-btn {
+  right: 90px;
+}
+
+.next-btn {
+  right: 30px;
+}
+
+/* Tablet */
+@media (max-width: 768px) {
+  .slider-img {
+    flex: 1 !important;
+    height: 60% !important;
+  }
+
+  .slider-img.active {
+    flex: 3 !important;
+    height: 100% !important;
+  }
+
+  .slider-img.near-active {
+    height: 75% !important;
+  }
+
+  .slider-img.far-active {
+    height: 60% !important;
+  }
+
+  h1 {
+    font-size: 16px;
+  }
+
+  .details {
+    left: 20px;
+    bottom: 20px;
+  }
+
+  .details h2 {
+    font-size: 14px;
+  }
+
+  .details p {
+    font-size: 12px;
+  }
+
+  .see-more-btn {
+    bottom: 20px;
+    right: 20px;
+    padding: 8px 16px;
+    font-size: 12px;
+  }
+
+  .slider-nav-btn {
+    width: 40px;
+    height: 40px;
+    font-size: 20px;
+    bottom: 20px;
+  }
+
+  .prev-btn {
+    right: 65px;
+  }
+
+  .next-btn {
+    right: 15px;
+  }
+
+  .slider-images {
+    gap: 10px;
+  }
+}
+
+/* Mobil */
+@media (max-width: 480px) {
+  .slider-img {
+    flex: 1 !important;
+    height: 50% !important;
+  }
+
+  .slider-img.active {
+    flex: 4 !important;
+    height: 100% !important;
+  }
+
+  .slider-img.near-active {
+    height: 70% !important;
+  }
+
+  .slider-img.far-active {
+    height: 50% !important;
+  }
+
+  h1 {
+    font-size: 14px;
+  }
+
+  .details {
+    bottom: 20px;
+    left: 20px;
+  }
+
+  .details h2 {
+    font-size: 12px;
+    line-height: 1.2;
+  }
+
+  .details p {
+    font-size: 10px;
+    line-height: 1.2;
+  }
+
+  .see-more-btn {
+    bottom: 20px;
+    right: 15px;
+    padding: 6px 12px;
+    font-size: 10px;
+  }
+
+  .slider-nav-btn {
+    bottom: 15px;
+  }
+
+  .prev-btn {
+    right: 60px;
+  }
+
+  .next-btn {
+    right: 10px;
+  }
+}
+
+/* Laptop (1024px - 1399px) */
+@media (min-width: 1024px) and (max-width: 1399px) {
+  h1 {
+    font-size: 30px;
+  }
+
+  .details h2 {
+    font-size: 24px;
+    line-height: 24px;
+  }
+
+  .details p {
+    font-size: 12px;
+    line-height: 20px;
+  }
+
+  .see-more-btn {
+    font-size: 12px;
+  }
+
+  .slider-nav-btn {
+    width: 50px;
+    height: 50px;
+    font-size: 28px;
+    bottom: 10px;
+  }
+
+  .prev-btn {
+    right: 90px;
+  }
+
+  .next-btn {
+    right: 30px;
+  }
+}
+
+/* Geniş ekranlar (1400px - 1599px) */
+@media (min-width: 1400px) and (max-width: 1599px) {
+  h1 {
+    font-size: 28px;
+  }
+
+  .details h2 {
+    font-size: 35px;
+    line-height: 30px;
+  }
+
+  .details p {
+    font-size: 18px;
+    line-height: 38px;
+  }
+
+  .see-more-btn {
+    font-size: 16px;
+    padding: 12px 24px;
+  }
+
+  .slider-nav-btn {
+    width: 50px;
+    height: 50px;
+    font-size: 28px;
+    bottom: 10px;
+  }
+
+  .prev-btn {
+    right: 100px;
+  }
+
+  .next-btn {
+    right: 40px;
+  }
+}
+
+/* Çok büyük ekranlar (1600px ve üstü) */
+@media (min-width: 1600px) {
+  h1 {
+    font-size: 50px;
+  }
+
+  .details {
+    bottom: 60px;
+    left: 60px;
+  }
+
+  .details h2 {
+    font-size: 40px;
+    line-height: 50px;
+  }
+
+  .details p {
+    font-size: 30px;
+    line-height: 40px;
+  }
+
+  .see-more-btn {
+    bottom: 60px;
+    right: 60px;
+    padding: 15px 30px;
+    font-size: 30px;
+    border-radius: 30px;
+  }
+
+  .slider-nav-btn {
+    width: 70px;
+    height: 70px;
+    font-size: 40px;
+    bottom: 10px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.6);
+  }
+  .slider-logo {
+    width: auto !important;
+    height: 100px !important;
+  }
+  .prev-btn {
+    right: 170px;
+  }
+
+  .next-btn {
+    right: 80px;
+  }
+}

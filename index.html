@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Image Slider</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <section class="slider-container">    
+      <div class="slider-images">
+        <div class="slider-img">
+          <img src="Images/1.png" alt="1" />
+          <h1>IMS</h1>
+          <!-- <a href="#" class="see-more-btn">See More</a> -->
+        </div>
+        <div class="slider-img">
+          <img src="Images/2.png" alt="2" />
+          <h1>TMS ERP</h1>
+          <!-- <a href="#" class="see-more-btn">See More</a> -->
+        </div>
+        <div class="slider-img">
+          <img src="Images/3.jpeg" alt="3" />
+          <h1>Smart Train</h1>
+          <!-- <a href="#" class="see-more-btn">See More</a> -->
+        </div>
+        <div class="slider-img active">
+          <img src="Images/argeposter.png" alt="4" />
+          <h1>TMS R&D</h1>
+          <!-- <a href="#" class="see-more-btn">See More</a> -->
+        </div>
+        <div class="slider-img">
+          <img src="Images/5.jpeg" alt="5" />
+          <h1>PAPIS & CCTV</h1>
+          <!-- <a href="#" class="see-more-btn">See More</a> -->
+        </div>
+        <div class="slider-img">
+          <img src="Images/6.png" alt="6" />
+          <h1>ENERGY METER</h1>
+          <!-- <a href="#" class="see-more-btn">See More</a> -->
+        </div>
+        <div class="slider-img">
+          <img src="Images/7.png" alt="7" />
+          <h1>TEST SYSTEMS</h1>
+          <!-- <a href="#" class="see-more-btn">See More</a> -->
+        </div>
+      </div>
+      <button id="prev-slide-btn" class="slider-nav-btn prev-btn">&lt;</button>
+      <button id="next-slide-btn" class="slider-nav-btn next-btn">&gt;</button>
+    </section>
+
+    <script src="js/jQuery.js"></script>
+    <script>
+      jQuery(document).ready(function ($) {
+        const $slides = $(".slider-img");
+        let currentIndex = $slides.filter(".active").index();
+        const slideIntervalTime = 100000000000; //
+        let autoSlideInterval;
+
+        // Eğer başlangıçta aktif slayt yoksa ilk slaytı aktif yap
+        if (currentIndex === -1 && $slides.length > 0) {
+          currentIndex = 0;
+          $slides.eq(currentIndex).addClass("active");
+        }
+
+        // Slaytların sınıflarını güncelle
+        function updateClasses(index) {
+          $slides.removeClass("active near-active far-active");
+
+          $slides.eq(index).addClass("active");
+
+          // Önceki ve sonraki slaytlar near-active
+          if (index - 1 >= 0) {
+            $slides.eq(index - 1).addClass("near-active");
+          }
+          if (index + 1 < $slides.length) {
+            $slides.eq(index + 1).addClass("near-active");
+          }
+
+          // Geri kalanlar far-active
+          for (let i = 0; i < $slides.length; i++) {
+            if (i !== index && i !== index - 1 && i !== index + 1) {
+              $slides.eq(i).addClass("far-active");
+            }
+          }
+        }
+
+        function setActiveSlide(index) {
+          if (index < 0 || index >= $slides.length || !$slides.length) {
+            return;
+          }
+          currentIndex = index;
+          updateClasses(index);
+        }
+
+        function nextSlideInternal() {
+          if ($slides.length === 0) return;
+          let newIndex = (currentIndex + 1) % $slides.length;
+          setActiveSlide(newIndex);
+        }
+
+        function startAutoSlide() {
+          clearInterval(autoSlideInterval);
+          if ($slides.length > 1) {
+            autoSlideInterval = setInterval(
+              nextSlideInternal,
+              slideIntervalTime
+            );
+          }
+        }
+
+        function resetAndStartAutoSlide() {
+          startAutoSlide();
+        }
+
+        // Slayt tıklama olayı
+        $slides.on("click", function () {
+          const clickedIndex = $(this).index();
+          if (clickedIndex !== currentIndex) {
+            setActiveSlide(clickedIndex);
+          } else {
+            // Eğer aynı aktif slayta tıklanırsa active class emin ol
+            if (!$(this).hasClass("active")) {
+              $slides.removeClass("active");
+              $(this).addClass("active");
+            }
+          }
+          resetAndStartAutoSlide();
+        });
+
+        // Sonraki buton
+        $("#next-slide-btn").on("click", function () {
+          if ($slides.length === 0) return;
+          let newIndex = (currentIndex + 1) % $slides.length;
+          setActiveSlide(newIndex);
+          resetAndStartAutoSlide();
+        });
+
+        // Önceki buton
+        $("#prev-slide-btn").on("click", function () {
+          if ($slides.length === 0) return;
+          let newIndex = (currentIndex - 1 + $slides.length) % $slides.length;
+          setActiveSlide(newIndex);
+          resetAndStartAutoSlide();
+        });
+
+        // Sayfa yüklendiğinde başlangıç
+        if ($slides.length > 0) {
+          updateClasses(currentIndex);
+          startAutoSlide();
+        } else {
+          $("#prev-slide-btn, #next-slide-btn").hide();
+        }
+      });
+    </script>
+  </body>
+</html>
